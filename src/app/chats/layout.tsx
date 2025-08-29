@@ -5,14 +5,19 @@ import "./globals.css";
 import "@mantine/core/styles.css";
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: [
+    {
+      path: "./fonts/Geist-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Geist-Black.woff2",
+      weight: "900",
+      style: "normal",
+    },
+  ],
   variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
 });
 
 export const metadata: Metadata = {
@@ -26,14 +31,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={geistSans.variable}>
       <head>
         <ColorSchemeScript />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        suppressHydrationWarning
-      >
+      <body className="antialiased" suppressHydrationWarning>
         <MantineProvider>{children}</MantineProvider>
       </body>
     </html>
