@@ -14,12 +14,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Mantine needs this */}
         <ColorSchemeScript defaultColorScheme="light" />
       </head>
-      <body className="antialiased font-sans" suppressHydrationWarning>
+      <body className="antialiased font-sans">
         <MantineProvider defaultColorScheme="light">
           {children}
         </MantineProvider>
