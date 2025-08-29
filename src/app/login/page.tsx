@@ -13,13 +13,13 @@ export default function LoginPage() {
         <form className="space-y-4">
           <TextInput
             label="Email"
-            placeholder="user21@gmail.com"
+            placeholder="yourname@gmail.com"
             required
           />
 
           <PasswordInput
             label="Password"
-            placeholder="miu12345"
+            placeholder="password"
             required
           />
 
