@@ -1,34 +1,41 @@
-"use client";
-import { Grid } from "@mantine/core";
-import ChatRoomListSection from "./ChatRoomListSection";
-import { usePathname } from "next/navigation";
+import type { Metadata } from "next";
+import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import localFont from "next/font/local";
+import "./globals.css";
+import "@mantine/core/styles.css";
 
-export default function ChatsLayout({
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
+
+export const metadata: Metadata = {
+  title: "WhatsCatt",
+  description: "A chat app built with Next.js and Mantine",
+};
+
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
-  const isChatRoom = pathname !== "/chats";
-
   return (
-    <Grid
-      h="100vh"
-      styles={{
-        inner: { margin: 0, height: "100%", width: "100%" },
-      }}
-    >
-      <Grid.Col
-        span={{ base: "auto", sm: "content" }}
-        w={{ base: "100%", xs: "20em" }}
-        p={0}
-        visibleFrom={isChatRoom ? "sm" : "base"}
+    <html lang="en">
+      <head>
+        <ColorSchemeScript />
+      </head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
-        <ChatRoomListSection />
-      </Grid.Col>
-      <Grid.Col span="auto" visibleFrom={isChatRoom ? "base" : "sm"} p={0}>
-        {children}
-      </Grid.Col>
-    </Grid>
+        <MantineProvider>{children}</MantineProvider>
+      </body>
+    </html>
   );
 }
