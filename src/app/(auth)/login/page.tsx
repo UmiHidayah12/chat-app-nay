@@ -1,0 +1,107 @@
+"use client";
+import React, { useState } from "react";
+import {
+  Anchor,
+  Button,
+  Checkbox,
+  Group,
+  Paper,
+  PasswordInput,
+  Text,
+  TextInput,
+  Title,
+  Flex,
+  Container,
+} from "@mantine/core";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+
+export default function LoginPage() {
+  const [email, setEmail] = useState("customer@gmail.com");
+  const [password, setPassword] = useState("177013");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleLogin = () => {
+    try {
+      setLoading(true);
+
+      if (!email || !password) {
+        throw new Error("Email and password are required");
+      }
+
+      if (email !== "customer@gmail.com" || password !== "177013") {
+        throw new Error("Invalid email or password");
+      }
+
+      Cookies.set("token", "12345");
+      Cookies.set(
+        "user",
+        JSON.stringify({ email, password, name: "king customer" })
+      );
+
+      router.push("/chats");
+    } catch (error) {
+      setError((error as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Flex
+      h="100vh"
+      w="100vw"
+      justify="center"
+      align="center"
+      direction="column"
+    >
+      <Container px={32} w={{ base: "100vw", xs: 480 }}>
+        <Title ta="center" fw={900} mb="sm">
+          Welcome back!
+        </Title>
+        <Text c="dimmed" size="sm" ta="center" mb="md">
+          Do not have an account yet?{" "}
+          <Anchor size="sm" component="button" onClick={() => router.push("/register")}>
+            Create account
+          </Anchor>
+        </Text>
+
+        <Paper withBorder shadow="md" p={30} radius="md">
+          <TextInput
+            label="Email"
+            placeholder="youremail@mail.com"
+            value={email}
+            onChange={(e) => setEmail(e.currentTarget.value)}
+            required
+            disabled={loading}
+          />
+          <PasswordInput
+            label="Password"
+            placeholder="Your password"
+            value={password}
+            onChange={(e) => setPassword(e.currentTarget.value)}
+            required
+            disabled={loading}
+            mt="md"
+          />
+          {error && (
+            <Text c="red" mt="sm" size="sm">
+              {error}
+            </Text>
+          )}
+          <Group justify="space-between" mt="lg">
+            <Checkbox label="Remember me" />
+            <Anchor component="button" size="sm">
+              Forgot password?
+            </Anchor>
+          </Group>
+          <Button fullWidth mt="xl" onClick={handleLogin} loading={loading}>
+            Sign in
+          </Button>
+        </Paper>
+      </Container>
+    </Flex>
+  );
+}
